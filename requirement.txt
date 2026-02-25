@@ -1,0 +1,24 @@
+Prototype:
+
+Application Specification:
+    * Create a web application for construction site supervisor to monitor and optimize the time and cost to cure the concrete
+    elements such as slab, ceiling etc. especially for L and T company this is a problem statement proporsed by them.
+
+    * As of now just create the frame of then web application 
+    * Add home page which summaries the projects undertaken and equipments list.
+    * The construction workers should be able to add projects, and elements of the project.
+    * Usually, The element of the projects are the concrete elements to be cured. 
+    * Each element will take some of the equipment to get things done, It should also be stored in the element page.
+    * After adding every element, The construction worker will add details like the volume of element.
+    * After collecting the information from the worker, The backend should suggest the curing method (I will give you the signal
+      later just create the place for the information to be displayed or entered.
+
+Tech stack:
+
+Backend:
+    API routes(Python fastapi)
+    Database (sqlite3)
+    Core Logic (Python) 
+Frontend:
+    Nextjs (React)
+    Tailwind CSS
