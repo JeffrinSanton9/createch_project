@@ -3,7 +3,6 @@ Prototype:
 Application Specification:
     * Create a web application for construction site supervisor to monitor and optimize the time and cost to cure the concrete
     elements such as slab, ceiling etc. especially for L and T company this is a problem statement proporsed by them.
-
     * As of now just create the frame of then web application 
     * Add home page which summaries the projects undertaken and equipments list.
     * The construction workers should be able to add projects, and elements of the project.

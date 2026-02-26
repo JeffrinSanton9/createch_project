@@ -1,5 +1,0 @@
-Sensor Requirements 󰶑
-    1. Temperature
-
-Temperature Load -> Concrete curing.
-
