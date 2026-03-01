@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from database import engine
 import models
-from routers import projects, elements, equipment
+from routers import projects, elements, equipment, simulation, approximation
 
 # Create all tables
 models.Base.metadata.create_all(bind=engine)
@@ -26,6 +26,8 @@ app.add_middleware(
 app.include_router(projects.router, prefix="/api")
 app.include_router(elements.router, prefix="/api")
 app.include_router(equipment.router, prefix="/api")
+app.include_router(simulation.router, prefix="/api")
+app.include_router(approximation.router, prefix="/api")
 
 
 @app.get("/")

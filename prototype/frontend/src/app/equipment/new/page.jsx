@@ -1,20 +1,16 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createProject } from "@/lib/api";
-import Link from "next/link";
 import NavBar from "@/app/components/Navibar.jsx";
 
-export default function NewProjectPage() {
+export default function NewEquipmentPage() {
     const router = useRouter();
     const [form, setForm] = useState({
         name: "",
-        location: "",
+        type: "",
         description: "",
-        status: "planning",
-        start_date: "",
-        end_date: "",
-        supervisor: ""
+        status: "available",
+        quantity: 1
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -28,10 +24,15 @@ export default function NewProjectPage() {
         setLoading(true);
         setError(null);
         try {
-            await createProject(form);
-            router.push("/project");
+            const res = await fetch("http://localhost:8000/api/equipment/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ ...form, quantity: Number(form.quantity) })
+            });
+            if (!res.ok) throw new Error("Failed to create equipment");
+            router.push("/equipment");
         } catch (err) {
-            setError("Failed to create project");
+            setError("Failed to create equipment");
         } finally {
             setLoading(false);
         }
@@ -42,15 +43,15 @@ export default function NewProjectPage() {
             <NavBar />
             <main className="flex flex-col items-center justify-center min-h-screen bg-gray-50 text-gray-900">
                 <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-xl mt-10 text-center text-gray-900">
-                    <h1 className="text-3xl font-bold text-blue-700 mb-4">Create New Project</h1>
+                    <h1 className="text-3xl font-bold text-blue-700 mb-4">Add New Equipment</h1>
                     <form onSubmit={handleSubmit} className="space-y-4 text-left">
                         <div>
                             <label className="block font-semibold mb-1">Name<span className="text-red-500">*</span></label>
                             <input name="name" value={form.name} onChange={handleChange} required className="w-full border rounded px-3 py-2" />
                         </div>
                         <div>
-                            <label className="block font-semibold mb-1">Location</label>
-                            <input name="location" value={form.location} onChange={handleChange} className="w-full border rounded px-3 py-2" />
+                            <label className="block font-semibold mb-1">Type<span className="text-red-500">*</span></label>
+                            <input name="type" value={form.type} onChange={handleChange} required className="w-full border rounded px-3 py-2" />
                         </div>
                         <div>
                             <label className="block font-semibold mb-1">Description</label>
@@ -59,30 +60,21 @@ export default function NewProjectPage() {
                         <div>
                             <label className="block font-semibold mb-1">Status</label>
                             <select name="status" value={form.status} onChange={handleChange} className="w-full border rounded px-3 py-2">
-                                <option value="planning">Planning</option>
-                                <option value="active">Active</option>
-                                <option value="completed">Completed</option>
-                                <option value="on_hold">On Hold</option>
+                                <option value="available">Available</option>
+                                <option value="in_use">In Use</option>
+                                <option value="maintenance">Maintenance</option>
                             </select>
                         </div>
                         <div>
-                            <label className="block font-semibold mb-1">Start Date</label>
-                            <input name="start_date" type="date" value={form.start_date} onChange={handleChange} className="w-full border rounded px-3 py-2" />
-                        </div>
-                        <div>
-                            <label className="block font-semibold mb-1">End Date</label>
-                            <input name="end_date" type="date" value={form.end_date} onChange={handleChange} className="w-full border rounded px-3 py-2" />
-                        </div>
-                        <div>
-                            <label className="block font-semibold mb-1">Supervisor</label>
-                            <input name="supervisor" value={form.supervisor} onChange={handleChange} className="w-full border rounded px-3 py-2" />
+                            <label className="block font-semibold mb-1">Quantity</label>
+                            <input name="quantity" type="number" min="1" value={form.quantity} onChange={handleChange} className="w-full border rounded px-3 py-2" />
                         </div>
                         {error && <div className="text-red-500 text-center">{error}</div>}
                         <button type="submit" disabled={loading} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition">
-                            {loading ? "Creating..." : "Create Project"}
+                            {loading ? "Adding..." : "Add Equipment"}
                         </button>
                         <div className="text-center mt-2">
-                            <Link href="/project" className="text-blue-600 hover:underline">Back to Projects</Link>
+                            <a href="/equipment" className="text-blue-600 hover:underline">Back to Equipment</a>
                         </div>
                     </form>
                 </div>
